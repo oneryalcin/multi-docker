@@ -1,18 +1,19 @@
 sudo: required
-language: node_js
-node_js:
-  - "8"
+# language: node_js
+# node_js:
+#   - "10"
 services:
     - docker
 
 # Build development version of client where we have access to test suite
 before_install:
+  - npm i -g npm@^6
   - docker build -t oneryalcin/react-test -f ./client/Dockerfile.dev ./client
 
 # run tests for client
-scripts:
-  # - docker run -e CI=true oneryalcin/react-test npm run test -- --watchAll=false
-  - docker run oneryalcin/react-test npm test -- --coverage
+script:
+  - docker run -e CI=true oneryalcin/react-test npm run test -- --watchAll=false
+  # - docker run oneryalcin/react-test npm test -- --coverage
 
 # Once test are all good and passing, go ehead and create production version of images
 after_success:
