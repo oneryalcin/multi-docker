@@ -4,7 +4,7 @@ services:
 
 # Build development version of client where we have access to test suite
 before_install:
-  - docker build - t oneryalcin/react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t oneryalcin/react-test -f ./client/Dockerfile.dev ./client
 
 # run tests for client
 scripts:
