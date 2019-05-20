@@ -1,0 +1,28 @@
+sudo: required
+services:
+    - docker
+
+# Build development version of client where we have access to test suite
+before_install:
+  - docker build - t oneryalcin/react-test -f ./client/Dockerfile.dev ./client
+
+# run tests for client
+scripts:
+  - docker run -e CI=true oneryalcin/react-test npm test -- --watchAll=false
+
+# Once test are all good and passing, go ehead and create production version of images
+after_success:
+  - docker build -t oneryalcin/multi-client ./client
+  - docker build -t oneryalcin/multi-nginx ./nginx
+  - docker build -t oneryalcin/multi-server ./server
+  - docker build -t oneryalcin/multi-worker ./worker
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Push prod version of images to dockerhub
+  - docker push oneryalcin/multi-client
+  - docker push oneryalcin/multi-nginx
+  - docker push oneryalcin/multi-server
+  - docker push oneryalcin/multi-worker
+
+
+
