@@ -7,7 +7,7 @@ services:
 
 # Build development version of client where we have access to test suite
 before_install:
-  - npm i -g npm@^6
+  # - npm i -g npm@^6
   - docker build -t oneryalcin/react-test -f ./client/Dockerfile.dev ./client
 
 # run tests for client
@@ -29,5 +29,16 @@ after_success:
   - docker push oneryalcin/multi-server
   - docker push oneryalcin/multi-worker
 
-
+deploy:
+  provider: elasticbeanstalk
+  region: us-east-1
+  app: multi-docker
+  env: MultiDocker-env
+  bucket_name: elasticbeanstalk-us-east-1-858541932570
+  bucket_path: docker-multi
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: $AWS_SECRET_KEY
 
