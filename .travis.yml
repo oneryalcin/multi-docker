@@ -1,7 +1,7 @@
 sudo: required
-language: node_js
-node_js:
-  - "10"
+# language: node_js
+# # node_js:
+# #   - "10"
 services:
     - docker
 
@@ -11,7 +11,7 @@ before_install:
 
 # run tests for client
 scripts:
-  - docker run -e CI=true oneryalcin/react-test npm test -- --watchAll=false
+  - docker run -e CI=true oneryalcin/react-test npm run test -- --watchAll=false
 
 # Once test are all good and passing, go ehead and create production version of images
 after_success:
