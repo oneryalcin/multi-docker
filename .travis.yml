@@ -11,7 +11,8 @@ before_install:
 
 # run tests for client
 scripts:
-  - docker run -e CI=true oneryalcin/react-test npm run test -- --watchAll=false
+  # - docker run -e CI=true oneryalcin/react-test npm run test -- --watchAll=false
+  - docker run oneryalcin/react-test npm test -- --coverage
 
 # Once test are all good and passing, go ehead and create production version of images
 after_success:
